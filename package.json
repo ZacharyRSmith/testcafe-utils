@@ -1,0 +1,40 @@
+{
+  "name": "testcafe-utils",
+  "version": "0.1.0",
+  "description": "Utils for testcafe.",
+  "main": "index.js",
+  "scripts": {
+    "flow": "node ./flow",
+    "flow-typed": "flow-typed",
+    "lint": "eslint index.js",
+    "its-all-flowy": "npm run lint; npm run flow; npm run test; depcheck",
+    "COMMENT": "--- TEST RELATED TASKS FOLLOW ---",
+    "coverage": "npm test -- --coverage",
+    "test:list": "npm test -- --listTests",
+    "test": "NODE_ENV=TEST jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZacharyRSmith/testcafe-utils.git"
+  },
+  "keywords": [
+    "testcafe",
+    "test",
+    "utils",
+    "helpers"
+  ],
+  "author": "@ZacharyRSmith <ZacharySmith4989@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZacharyRSmith/testcafe-utils/issues"
+  },
+  "homepage": "https://github.com/ZacharyRSmith/testcafe-utils#readme",
+  "devDependencies": {
+    "eslint": "^4.8.0",
+    "flow": "^0.2.3",
+    "flow-bin": "^0.56.0",
+    "flow-typed": "^2.2.0",
+    "jest": "^21.2.1"
+  },
+  "dependencies": {}
+}

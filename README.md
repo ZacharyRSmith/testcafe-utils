@@ -1,74 +1,39 @@
-# Assign Args
+# TestCafe Utils
 
-Like Function.prototype.bind,
-but let's you assign farther-right arguments first,
-incrementally assign properties on an object argument,
-and overwrite previously assigned arguments.
+Utils for TestCafe.
+
+## Current methods:
+
+#### async tu.expectEach()
+* Runs @fn(n) for each n matching @selector.
+*
+* Runs in series, not parallel.
+*
+* Example usage:
+
+* await expectEach(
+*   mySelector,
+*   n => t.expect(mySelector.nth(n).innerText).eql("foo", `Failed on n '${n}'`)
+* );
 
 # Installation
 ```sh
-$ npm install assign-args
+$ npm install testcafe-utils
 ```
 
 # Usage
 ```javascript
-// How to require:
-const assign = require('assign-args');
-```
+const { Selector } = require('testcafe');
+const tu = require('testcafe-utils');
 
-```javascript
-test('assigning farther-right arguments first', () => {
-  const y = (m, x, b) => m*x + b;
-  const oneArg = assign(y, undefined, undefined, 3);
-  const twoArgs = assign(oneArg, undefined, 2);
+const baseURL = 'http://www.imdb.com/title/tt0092400/ratings?ref_=tt_ov_rt';
 
-  expect(twoArgs(1)).toBe(5);
-});
+fixture `IMDB`
+  .page `${baseURL}`;
 
-test('incrementally assigning properties on an object argument', () => {
-  const y = ({ m, x }, b) => m*x + b;
-  const oneArg = assign(y, undefined, 3);
-  const twoArgs = assign(oneArg, { x: 2 });
+const mySelector = Selector('#main .title-ratings-sub-page table:nth-of-type(2) tr');
 
-  expect(twoArgs({ m: 1 })).toBe(5);
-});
-
-test('overwriting previously assigned args', () => {
-  const y = ({ m, x }, b) => m*x + b;
-  const withArgs = assign(y, { m: 2, x: 2 }, 5);
-  expect(withArgs()).toBe(9);
-  const withArgsRedone = assign(withArgs, { m: 3 }, 10);
-
-  expect(withArgsRedone()).toBe(16);
-});
-```
-
-## Binding context/this still works:
-
-```javascript
-const getFoo = function(...args) {
-  return this.foo + args.join('');
-};
-
-test('binding context/this before', () => {
-  const withCtx = getFoo.bind({ foo: 'bar' });
-  const withCtxAndArg = assign(withCtx, 1);
-
-  expect(withCtxAndArg()).toBe('bar1');
-});
-
-test('binding context/this between', () => {
-  const withArg = assign(getFoo, undefined, 2);
-  const withCtxAndArg = withArg.bind({ foo: 'bar' });
-  const withCtxAnd2Args = assign(withCtxAndArg, 1);
-
-  expect(withCtxAnd2Args()).toBe('bar12');
+test('it', async t => {
+  await tu.expectEach(mySelector, n => t.expect(mySelector.nth(n).innerText).match(/all/gi, `Failed on n '${n}'.`));
 })
-
-test('binding contet/this after', () => {
-  const withArg = assign(getFoo, 1);
-  const withCtxAndArg = withArg.bind({ foo: 'bar' });
-
-  expect(withCtxAndArg()).toBe('bar1');
-});
 ```

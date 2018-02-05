@@ -1,3 +1,4 @@
+// https://github.com/facebook/flow/issues/2117
 const child_process = require('child_process');
 const dir = process.cwd();
 const client_root = dir.charAt(0).toLowerCase() + dir.slice(1);

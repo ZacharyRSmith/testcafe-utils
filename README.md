@@ -5,16 +5,18 @@ Utils for TestCafe.
 ## Current methods:
 
 #### async tu.expectEach()
-* Runs @fn(n) for each n matching @selector.
-*
-* Runs in series, not parallel.
-*
-* Example usage:
 
-* await expectEach(
-*   mySelector,
-*   n => t.expect(mySelector.nth(n).innerText).eql("foo", `Failed on n '${n}'`)
-* );
+Runs @fn(n) for each n matching @selector.
+
+Runs in series, not parallel.
+
+Example usage:
+```
+await expectEach(
+  mySelector,
+  n => t.expect(mySelector.nth(n).innerText).eql("foo", `Failed on n '${n}'`)
+);
+```
 
 # Installation
 ```sh
